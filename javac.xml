@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- standard call to javac for main and test -->
+
 <project>
   <path id="emptycp"/>
   

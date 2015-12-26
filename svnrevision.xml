@@ -1,7 +1,7 @@
 <project>
   <!-- Get subversion revision and whether the working dir is dirty
-  with regard to the repository. (Since subversion tasks are still not
-  standard with ant, use exec) -->
+       with regard to the repository. (Since subversion tasks are
+       still not standard with ant, use exec) -->
 
   <macrodef name="do-svnrevision">
     <sequential>

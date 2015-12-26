@@ -13,7 +13,7 @@
                linksource="yes"
                windowtitle="Xmldego - XML define and go"
                link="http://java.sun.com/javase/7/docs/api/"
-               header="&lt;span class='xheader'&gt;Xmldego v${svn.revision}&lt;/span&gt;"      >
+               header="&lt;span class='xheader'&gt;${ant.project.name} v${svn.revision}&lt;/span&gt;"      >
       </javadoc>
     </sequential>
   </macrodef>
