@@ -32,11 +32,13 @@
     <attribute name="classpathref"/>
     <attribute name="dstdir"/>
     <sequential>
+      <!-- set in main build.xml to preempty this setting -->
+      <property name="project.java.version" value="1.7"/>
       <mkdir dir="@{dstdir}"/>
       <javac srcdir="@{srcdir}"
              classpathref="@{classpathref}"
              destdir="@{dstdir}"
-             source="1.7"
+             source="${project.java.version}"
              listfiles="no"
              fork="true"
              debug="true"
