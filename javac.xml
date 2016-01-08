@@ -2,28 +2,59 @@
 <!-- standard call to javac for main and test -->
 
 <project>
-  <path id="emptycp"/>
-  
+  <import file="util.xml"/>
+
   <macrodef name="do-javac">
-    <attribute name="classpathref" default="emptycp"/>
+    <attribute name="classpathref" default="empty-classpath"/>
     <sequential>
+      <set-javac-cp classpathref="@{classpathref}"/>
       <do-javac-helper srcdir="src" 
                        dstdir="build/classes"
-                       classpathref="@{classpathref}"/>
+                       classpathref="javac-cp"/>
     </sequential>
   </macrodef>
 
-  <macrodef name="do-javac-test">
-    <attribute name="classpathref" default="emptycp"/>
+  <macrodef name="do-javac-tests">
+    <attribute name="classpathref" default="empty-classpath"/>
     <sequential>
-      <path id="javac-tests-cp">
-        <path refid="@{classpathref}"/>
-        <pathelement location="build/classes"/>
-        <pathelement path="${junit.jar}"/>
-      </path>
-      <do-javac-helper srcdir="tests" 
+      <set-javac-tests-cp classpathref="@{classpathref}"/>
+      <do-javac-helper srcdir="tests/src" 
                        dstdir="build/test-classes"
                        classpathref="javac-tests-cp"/>
+    </sequential>
+  </macrodef>
+
+  <macrodef name="do-copy-conf">
+    <sequential>
+      <copy todir="build/classes">
+        <fileset dir="conf" />
+      </copy>
+    </sequential>
+  </macrodef>
+
+  <macrodef name="set-javac-cp">
+    <attribute name="classpathref"/>
+    <sequential>
+      <path id="javac-cp">
+        <path refid="@{classpathref}"/>
+        <pathelement location="build/classes"/>
+        <fileset erroronmissingdir="false"
+                 dir="libs" includes="**/*.jar"/>
+      </path>
+    </sequential>
+  </macrodef>
+
+  <macrodef name="set-javac-tests-cp">
+    <attribute name="classpathref"/>
+    <sequential>
+      <set-javac-cp classpathref="@{classpathref}"/>
+      <path id="javac-tests-cp">
+        <path refid="javac-cp"/>
+        <pathelement location="build/test-classes"/>
+        <pathelement location="${junit.jar}"/>
+        <fileset erroronmissingdir="false"
+                 dir="tests/libs" includes="**/*.jar"/>
+      </path>
     </sequential>
   </macrodef>
 
@@ -38,7 +69,6 @@
       <javac srcdir="@{srcdir}"
              classpathref="@{classpathref}"
              destdir="@{dstdir}"
-             source="${project.java.version}"
              listfiles="no"
              fork="true"
              debug="true"
@@ -46,6 +76,7 @@
              deprecation="true"
              >
         <compilerarg value="-Xlint:unchecked"/>
+        <compilerarg line="-Xmaxerrs 10"/>
         <patternset includes="**/*.java"
                     excludes="**/package-info.java"/>
       </javac>
