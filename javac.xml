@@ -27,7 +27,7 @@
   <macrodef name="do-copy-conf">
     <sequential>
       <copy todir="build/classes">
-        <fileset dir="conf" />
+        <fileset dir="src/conf" />
       </copy>
     </sequential>
   </macrodef>
